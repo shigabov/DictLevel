@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Проверь словарный запас</string>
+    <string name="choose_lang">Выбирите родной язык</string>
+    <string name="choose_lang_test">Выбирите язык для проверки</string>
+    <string name="russian">Русский язык</string>
+    <string name="english">Английский язык</string>
+</resources>
