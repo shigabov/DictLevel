@@ -7,6 +7,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,8 @@ import ru.asbvapps.android.dictlevel.data.DictLevelAdapter;
  */
 public class TestingFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    public static final int COL_NAME = 2;
+    private static final String LOG_TAG = TestingFragment.class.getSimpleName();
+    public static final int COL_NAME = 1;
     private final int WORDS_LOADER = 1;
 
     DictLevelAdapter mAdapter;
@@ -40,6 +42,7 @@ public class TestingFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mAdapter.swapCursor(data);
+        Log.d(LOG_TAG, "count=" + mAdapter.getCount());
     }
 
     @Override
