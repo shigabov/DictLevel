@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
@@ -11,28 +13,29 @@
         android:text="@string/choose_lang_test"
         android:id="@+id/textView" />
 
-    <RadioGroup
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lv_languages"
+        android:choiceMode="singleChoice"
+        >
+
+    </ListView>
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/russian"
-            android:id="@+id/rb_ru"
-            android:layout_gravity="center_horizontal"
-            android:onClick="selectLang"
-            />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/english"
-            android:id="@+id/rb_eng"
-            android:layout_gravity="center_horizontal"
-            android:onClick="selectLang"
-            />
-    </RadioGroup>
-
+        android:id="@+id/tv_desc"
+        android:text="@string/desc"
+        tools:text="Instructions"
+        android:visibility="gone"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_start"
+        android:text="@string/start"
+        tools:text="Start test"
+        android:visibility="gone"/>
 
 </LinearLayout>

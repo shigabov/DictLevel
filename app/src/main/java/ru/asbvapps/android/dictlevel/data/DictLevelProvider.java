@@ -7,6 +7,9 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
+
+import java.io.IOException;
 
 import ru.asbvapps.android.dictlevel.data.DictContract;
 
@@ -19,9 +22,15 @@ public class DictLevelProvider extends ContentProvider {
         private static final UriMatcher sUriMatcher = buildUriMatcher();
         private DictLevelDBHelper mOpenHelper;
 
+        private static final String LOG_TAG = DictLevelProvider.class.getSimpleName();
+
         static final int WORDS  = 100;
         static final int GROUPS = 101;
-        /*
+        static final int WORDS_UI = 102;
+        static final int LANG = 103;
+
+
+    /*
             Students: Here is where you need to create the UriMatcher. This UriMatcher will
             match each URI to the WEATHER, WEATHER_WITH_LOCATION, WEATHER_WITH_LOCATION_AND_DATE,
             and LOCATION integer constants defined above.  You can test this by uncommenting the
@@ -43,6 +52,9 @@ public class DictLevelProvider extends ContentProvider {
            // matcher.addURI(authority, WeatherContract.PATH_WEATHER + "/*/#", WEATHER_WITH_LOCATION_AND_DATE);
 
             matcher.addURI(authority, DictContract.PATH_GROUPS, GROUPS);
+            matcher.addURI(authority, DictContract.PATH_LANG, LANG);
+
+            matcher.addURI(authority, DictContract.PATH_WORDS_UI+"/*", WORDS_UI);
             return matcher;
         }
 
@@ -52,7 +64,16 @@ public class DictLevelProvider extends ContentProvider {
          */
         @Override
         public boolean onCreate() {
+
             mOpenHelper = new DictLevelDBHelper(getContext());
+
+            try {
+                mOpenHelper.createDataBase();
+            }
+            catch (IOException e){
+                throw new Error("Error initializing db="+e.toString());
+
+            }
             return true;
         }
 
@@ -72,11 +93,40 @@ public class DictLevelProvider extends ContentProvider {
 
                 case WORDS:
                     return DictContract.WordsEntry.CONTENT_TYPE;
+                case LANG:
+                    return DictContract.LangEntry.CONTENT_TYPE;
+                case WORDS_UI:
+                    return DictContract.WordsEntry.CONTENT_TYPE;
                 case GROUPS:
                     return DictContract.GroupEntry.CONTENT_TYPE;
                 default:
                     throw new UnsupportedOperationException("Unknown uri: " + uri);
             }
+        }
+
+
+        public Cursor getWordsUI(Uri uri){
+
+            String lang = DictContract.getLanguageFromUri(uri);
+            SQLiteDatabase db =  mOpenHelper.getWritableDatabase();
+            db.beginTransaction();
+            db.execSQL("update words set rnd = random() where language='" + lang + "'");
+
+            db.setTransactionSuccessful();
+            db.endTransaction();
+            db.close();
+            String query =  "select * " +
+                    "  from words " +
+                    " where language = ? " +
+                    "   and rnd in (select min(rnd) " +
+                    "                 from words " +
+                    "                where language = ? " +
+                    "                group by _id/((select count(*) from words where language = ?)/150)" +
+                    ")";
+            Log.d(LOG_TAG, "lang="+lang);
+            Log.d(LOG_TAG, query);
+            return mOpenHelper.getReadableDatabase().rawQuery(query  ,new String[]{lang,lang,lang}
+            );
         }
 
         @Override
@@ -101,6 +151,11 @@ public class DictLevelProvider extends ContentProvider {
                     );
                     break;
                 }
+                case WORDS_UI: {
+
+                    retCursor = getWordsUI(uri);
+                    break;
+                }
                 // "location"
                 case GROUPS: {
                     retCursor = mOpenHelper.getReadableDatabase().query(
@@ -114,7 +169,18 @@ public class DictLevelProvider extends ContentProvider {
                     );
                     break;
                 }
-
+                case LANG: {
+                    retCursor = mOpenHelper.getReadableDatabase().query(
+                            DictContract.LangEntry.TABLE_NAME,
+                            projection,
+                            selection,
+                            selectionArgs,
+                            null,
+                            null,
+                            sortOrder
+                    );
+                    break;
+                }
                 default:
                     throw new UnsupportedOperationException("Unknown uri: " + uri);
             }

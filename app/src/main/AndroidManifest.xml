@@ -18,6 +18,9 @@
         <activity android:name=".TestingActivity">
 
         </activity>
+        <activity android:name=".ResultActivity">
+
+        </activity>
         <provider
             android:authorities="ru.asbvapps.android.dictlevel.app"
             android:name=".data.DictLevelProvider">

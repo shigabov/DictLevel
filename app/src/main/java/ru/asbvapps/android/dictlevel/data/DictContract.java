@@ -32,7 +32,12 @@ public class DictContract {
     // as the ContentProvider hasn't been given any information on what to do with "givemeroot".
     // At least, let's hope not.  Don't be that dev, reader.  Don't be that dev.
     public static final String PATH_WORDS = "words";
+    public static final String PATH_WORDS_UI = "words";
     public static final String PATH_GROUPS = "groups";
+    public static final String PATH_LANG = "languages";
+
+    public static final Uri WORDS_UI_URI =
+            BASE_CONTENT_URI.buildUpon().appendPath(PATH_WORDS_UI).build();
 
     public static final class WordsEntry implements BaseColumns {
         public static final Uri CONTENT_URI =
@@ -48,6 +53,9 @@ public class DictContract {
 
         public static Uri buildWordsUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+        public static Uri buildWordsUIUri (String lang){
+            return CONTENT_URI.buildUpon().appendPath(lang).build();
         }
     }
 
@@ -65,4 +73,18 @@ public class DictContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
     }
+
+    public static final class LangEntry implements BaseColumns {
+        public final static String TABLE_NAME = "languages";
+        public final static String COL_NAME = "name";
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_LANG).build();
+        public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_LANG;
+    }
+
+    public static String getLanguageFromUri(Uri uri) {
+        return uri.getPathSegments().get(1);
+    }
+
+
 }

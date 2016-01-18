@@ -4,4 +4,11 @@
     <string name="choose_lang_test">Выбирите язык для проверки</string>
     <string name="russian">Русский язык</string>
     <string name="english">Английский язык</string>
+    <string name="instruction">instruction</string>
+    <string name="btn_calc">Готово</string>
+    <string name="retry">Попробовать еще раз</string>
+    <string name="result_desc">Ваш словарный запас</string>
+    <string name="share_text">Мой словарный запас</string>
+    <string name="desc">Выберете слова значения которых вам известны</string>
+    <string name="start">Старт</string>
 </resources>

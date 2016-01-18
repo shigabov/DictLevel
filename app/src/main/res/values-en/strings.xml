@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Check your dictionary</string>
+    <string name="choose_lang">Choose native language</string>
+    <string name="choose_lang_test">Choose language for testing</string>
+    <string name="english">English</string>
+    <string name="russian">Russian</string>
+    <string name="instruction">Choose words, that you know</string>
+    <string name="btn_calc">Submit</string>
+</resources>
