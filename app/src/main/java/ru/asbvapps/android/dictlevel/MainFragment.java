@@ -1,5 +1,6 @@
 package ru.asbvapps.android.dictlevel;
 
+import android.app.Application;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.Context;
@@ -7,9 +8,11 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -17,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -61,8 +65,11 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 
+        mTvDesc.setVisibility(View.GONE);
+        mBtnStart.setVisibility(View.GONE);
         getLoaderManager().initLoader(0, null, this);
         super.onActivityCreated(savedInstanceState);
+
     }
 
     private void startTestingActivity (){
@@ -76,7 +83,9 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mAdapter = new LanguagesAdapter(getActivity(), null, 0);
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        ListView lv = (ListView) rootView.findViewById(R.id.lv_languages);
+
+        RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv_lang);
+
         mTvDesc = (TextView) rootView.findViewById(R.id.tv_desc);
         mBtnStart = (Button) rootView.findViewById(R.id.btn_start);
         ProgressBar progressBar = new ProgressBar(getActivity());
@@ -115,9 +124,21 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
             Log.d(LOG_TAG, "bindView");
 
             TextView v = (TextView) view.findViewById(R.id.tv_lang);
+            ImageView iv = (ImageView) view.findViewById(R.id.img_lang);
+
 
             v.setText(cursor.getString(1));
             v.setTag(cursor.getString(0));
+
+            Log.d(LOG_TAG, "0=" + cursor.getString(0));
+
+            int imgId = getResources().getIdentifier(cursor.getString(0), "drawable", getActivity().getPackageName());
+            Log.d(LOG_TAG, "imgId=" + imgId);
+
+            if (imgId != 0){
+                iv.setImageDrawable(getResources().getDrawable(imgId));
+            }
+
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

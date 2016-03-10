@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Проверь словарный запас</string>
     <string name="choose_lang">Выбирите родной язык</string>
-    <string name="choose_lang_test">Выбирите язык для проверки</string>
+    <string name="choose_lang_test">Выбирите язык для проверки:</string>
     <string name="english">Английский язык</string>
     <string name="russian">Русский язык</string>
     <string name="instruction">Выбирите слова, значения которых вам известны</string>
@@ -11,4 +11,5 @@
     <string name="share_text">Мой словарный запас</string>
     <string name="desc">Выберете слова значения которых вам известны</string>
     <string name="start">Старт</string>
+    <string name="result_desc">Ваш словарный запас</string>
 </resources>

@@ -7,4 +7,9 @@
     <string name="russian">Russian</string>
     <string name="instruction">Choose words, that you know</string>
     <string name="btn_calc">Submit</string>
+    <string name="start">Start</string>
+    <string name="share_text">My lexicon is</string>
+    <string name="retry">Retry</string>
+    <string name="desc">Choose the words that you know</string>
+    <string name="result_desc">My lexicon is</string>
 </resources>

@@ -3,22 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="5dp">
 
     <TextView
         android:id="@+id/tv_lang"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:padding="10dp"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
         android:textAppearance="?android:textAppearanceMedium"
-        tools:text="русский язык">
+        tools:text="русский язык"
+        android:layout_marginStart="20dp"
+        android:capitalize="sentences"
+        android:gravity="center_vertical"
+        >
 
     </TextView>
-
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="flag"
-        tools:srs="" />
+        android:layout_height="match_parent"
+        android:id="@+id/img_lang"
+        tools:src="@drawable/russian"
+        android:contentDescription="flag" />
+
+
 </LinearLayout>

@@ -5,37 +5,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/choose_lang_test"
-        android:id="@+id/textView" />
+        android:id="@+id/textView"
+        android:paddingBottom="10dp"/>
 
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/lv_languages"
-        android:choiceMode="singleChoice"
-        >
+    <android.support.v7.widget.RecyclerView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rv_lang"/>
 
-    </ListView>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/tv_desc"
         android:text="@string/desc"
         tools:text="Instructions"
         android:visibility="gone"
         />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btn_start"
         android:text="@string/start"
+        android:padding="10dp"
         tools:text="Start test"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        />
 
 </LinearLayout>
