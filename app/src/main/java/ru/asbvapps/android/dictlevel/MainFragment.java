@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -36,11 +37,12 @@ import ru.asbvapps.android.dictlevel.data.DictContract;
 public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String LANG = "language";
-    private String mLang="";
-    private TextView mTvDesc;
-    private Button mBtnStart;
+    public String mLang="";
+    public TextView mTvDesc;
+    public Button mBtnStart;
+    private RecyclerView.LayoutManager mLayoutManager;
     private static final String LOG_TAG = MainFragment.class.getSimpleName();
-    LanguagesAdapter mAdapter;
+    RecyclerAdapter mAdapter;
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
@@ -55,6 +57,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         Log.d(LOG_TAG, "onLoadFinished count=" + data.getCount());
 
         mAdapter.swapCursor(data);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -81,10 +84,20 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mAdapter = new LanguagesAdapter(getActivity(), null, 0);
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_lang);
 
-        RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv_lang);
+
+        // если мы уверены, что изменения в контенте не изменят размер layout-а RecyclerView
+        // передаем параметр true - это увеличивает производительность
+        mRecyclerView.setHasFixedSize(true);
+
+        // используем linear layout manager
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        // создаем адаптер
+        mAdapter = new RecyclerAdapter(null);
+        mRecyclerView.setAdapter(mAdapter);
 
         mTvDesc = (TextView) rootView.findViewById(R.id.tv_desc);
         mBtnStart = (Button) rootView.findViewById(R.id.btn_start);
@@ -92,9 +105,6 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         /*progressBar.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER));*/
         progressBar.setIndeterminate(true);
-
-        lv.setAdapter(mAdapter);
-        lv.setEmptyView(progressBar);
 
         rootView.findViewById(R.id.btn_start).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +116,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         return rootView;
     }
 
+/*
     class LanguagesAdapter extends CursorAdapter {
 
         public LanguagesAdapter(Context context, Cursor c, int flags) {
@@ -124,9 +135,6 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
             Log.d(LOG_TAG, "bindView");
 
             TextView v = (TextView) view.findViewById(R.id.tv_lang);
-            ImageView iv = (ImageView) view.findViewById(R.id.img_lang);
-
-
             v.setText(cursor.getString(1));
             v.setTag(cursor.getString(0));
 
@@ -150,4 +158,5 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
         }
     }
+*/
 }
